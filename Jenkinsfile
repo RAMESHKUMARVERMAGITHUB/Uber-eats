@@ -15,14 +15,14 @@ pipeline{
         }
         stage('Checkout from Git'){
             steps{
-                git branch: 'main', url: 'https://github.com/RAMESHKUMARVERMAGITHUB/Candycrush.git'
+                git branch: 'main', url: 'https://github.com/RAMESHKUMARVERMAGITHUB/Uber-eats.git'
             }
         }
         stage("Sonarqube Analysis "){
             steps{
                 withSonarQubeEnv('sonar-server') {
-                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=candycrush \
-                    -Dsonar.projectKey=candycrush'''
+                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=ubereats \
+                    -Dsonar.projectKey=ubereats'''
                 }
             }
         }
@@ -53,21 +53,21 @@ pipeline{
             steps{
                 script{
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){
-                       sh "docker build -t rameshkumarverma/candycrush:latest ."
-                       // sh "docker tag uber rameshkumarverma/uber:latest "
-                       sh "docker push rameshkumarverma/candycrush:latest"
+                       sh "docker build -t rameshkumarverma/ubereats:latest ."
+                       // sh "docker tag uber rameshkumarverma/ubereats:latest "
+                       sh "docker push rameshkumarverma/ubereats:latest"
                     }
                 }
             }
         }
         stage("TRIVY"){
             steps{
-                sh "trivy image rameshkumarverma/candycrush:latest > trivyimage.txt"
+                sh "trivy image rameshkumarverma/ubereats:latest > trivyimage.txt"
             }
         }
         // stage("deploy_docker"){
         //     steps{
-        //         sh "docker run -d --name uber -p 3000:3000 rameshkumarverma/candycrush:latest"
+        //         sh "docker run -d --name ubereats -p 80:80 rameshkumarverma/ubereats:latest"
         //     }
         // }
         stage('Deploy to kubernets'){
