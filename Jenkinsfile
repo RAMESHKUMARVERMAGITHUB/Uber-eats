@@ -70,6 +70,11 @@ pipeline{
                 sh "docker run -d --name ubereats -p 80:80 rameshkumarverma/ubereats:latest"
             }
         }
+        stage("trivy k8s scan"){
+            steps{
+                sh "trivy k8s deployment-service.yml"
+            }
+        }
         stage('Deploy to kubernets'){
             steps{
                 script{
