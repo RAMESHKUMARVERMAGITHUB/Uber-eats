@@ -2,31 +2,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: candycrush
+  name: ubereats
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: candycrush
+      app: ubereats
   template:
     metadata:
       labels:
-        app: candycrush
+        app: ubereats
     spec:
       containers:
-      - name: candycrush
-        image: rameshkumarverma/candycrush:latest
+      - name: ubereats
+        image: rameshkumarverma/ubereats:latest
         ports:
-        - containerPort: 3000   # Use port 3000
+        - containerPort: 80   # Use port 3000
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: candycrush-service
+  name: ubereats-service
 spec:
   selector:
-    app: candycrush
+    app: ubereats
   ports:
   - protocol: TCP
     port: 80                 # Expose port 80
