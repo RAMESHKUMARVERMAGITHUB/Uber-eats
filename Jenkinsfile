@@ -33,11 +33,11 @@ pipeline{
                 }
             }
         }
-        stage('Install Dependencies') {
-            steps {
-                sh "npm install"
-            }
-        }
+        // stage('Install Dependencies') {
+        //     steps {
+        //         sh "npm install"
+        //     }
+        // }
         stage('OWASP FS SCAN') {
             steps {
                 dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-Check'
@@ -65,11 +65,11 @@ pipeline{
                 sh "trivy image rameshkumarverma/ubereats:latest > trivyimage.txt"
             }
         }
-        // stage("deploy_docker"){
-        //     steps{
-        //         sh "docker run -d --name ubereats -p 80:80 rameshkumarverma/ubereats:latest"
-        //     }
-        // }
+        stage("deploy_docker"){
+            steps{
+                sh "docker run -d --name ubereats -p 80:80 rameshkumarverma/ubereats:latest"
+            }
+        }
         stage('Deploy to kubernets'){
             steps{
                 script{
